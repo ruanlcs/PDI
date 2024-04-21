@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Ruan Lucas">
+<title>Exercícios: Processamento Digital de Imagens (DCA0445)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/atom-one-light.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Exercícios: Processamento Digital de Imagens (DCA0445)</h1>
+<div class="details">
+<span id="author" class="author">Ruan Lucas</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Sumário</div>
+<ul class="sectlevel1">
+<li><a href="#_prefácio">Prefácio</a></li>
+<li><a href="#_1_conceitos_iniciais">1. Conceitos Iniciais</a></li>
+<li><a href="#_2_manipulando_pixels_em_uma_imagem">2. Manipulando pixels em uma imagem</a>
+<ul class="sectlevel2">
+<li><a href="#_2_1_negativo_de_uma_imagem">2.1 Negativo de uma imagem</a></li>
+<li><a href="#_2_2_trocar_regiões">2.2 Trocar regiões</a></li>
+</ul>
+</li>
+<li><a href="#_3_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</a>
+<ul class="sectlevel2">
+<li><a href="#_3_1_exercício">3.1 Exercício</a></li>
+</ul>
+</li>
+<li><a href="#_4_decomposição_de_imagens_digitais">4. Decomposição de imagens digitais</a>
+<ul class="sectlevel2">
+<li><a href="#_4_1_esteganografia">4.1 Esteganografia</a></li>
+<li><a href="#_4_2_exercicio">4.2 Exercicio</a></li>
+</ul>
+</li>
+<li><a href="#_5_preenchendo_regiões">5. Preenchendo regiões</a>
+<ul class="sectlevel2">
+<li><a href="#_5_1_exercicio">5.1 Exercicio</a></li>
+<li><a href="#_5_2_exercicio">5.2 exercicio</a></li>
+</ul>
+</li>
+<li><a href="#_6_manipulando_histogramas">6 Manipulando histogramas</a>
+<ul class="sectlevel2">
+<li><a href="#_6_1_equalização">6.1 Equalização</a></li>
+<li><a href="#_6_2_detecção_de_movimento">6.2 Detecção de Movimento</a></li>
+</ul>
+</li>
+<li><a href="#_7_filtragem_no_dominio_espacial_i">7 Filtragem no dominio espacial I</a>
+<ul class="sectlevel2">
+<li><a href="#_7_1_exercício">7.1 Exercício</a></li>
+</ul>
+</li>
+<li><a href="#_8_filtragem_no_dominio_espacial_ii">8 Filtragem no dominio espacial II</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_prefácio">Prefácio</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Parte I: Processamento de Imagens no Dominío Espacial</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_conceitos_iniciais">1. Conceitos Iniciais</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nesta página, abordaremos diversos conceitos ligados ao processamento de imagens no domínio espacial, com foco nas áreas de manipulação de imagens e histogramas, serialização de dados, decomposição de imagens, preenchimento de regiões e aplicação de métodos de filtragem.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_manipulando_pixels_em_uma_imagem">2. Manipulando pixels em uma imagem</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_1_negativo_de_uma_imagem">2.1 Negativo de uma imagem</h3>
+<div class="paragraph">
+<p>Esse programa deverá solicitar ao usuário as coordenadas de dois pontos P1 e P2 localizados dentro dos limites do tamanho da imagem e exibir que lhe for fornecida. Entretanto, a região definida pelo retângulo de vértices opostos definidos pelos pontos P1 e P2 será exibida com o negativo da imagem na região correspondente.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução">Solução</h4>
+<div class="paragraph">
+<p>A código a seguir realiza a aplicação de um efeito de negativo em uma região específica de uma imagem, a partir dos dados fornecidos pelo usuário.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Carrega uma imagem em escala de cinza e define as dimensões da imagem.</p>
+</li>
+<li>
+<p>Solicita ao usuário as coordenadas P1 e P2 do retâgulo que define a região a ser negativa.</p>
+</li>
+<li>
+<p>Verifica se as coordenadas iseridas são válidas.</p>
+</li>
+<li>
+<p>Aplica o  efeito de negativo à região delimitada pelo retângulo.</p>
+</li>
+<li>
+<p>Exibe e também salva a imagem resultante, que possui a região como negativo.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+
+def negative_region(image, p1, p2):
+    # Criar uma cópia da imagem
+    result = image.copy()
+
+    # Obter as coordenadas do retângulo
+    x_min, x_max = min(p1[0], p2[0]), max(p1[0], p2[0])
+    y_min, y_max = min(p1[1], p2[1]), max(p1[1], p2[1])
+
+    # Garantir que as coordenadas estejam dentro dos limites da imagem
+    x_min = max(0, x_min)
+    y_min = max(0, y_min)
+    x_max = min(image.shape[1] - 1, x_max)
+    y_max = min(image.shape[0] - 1, y_max)
+
+    # Aplicar o negativo da imagem na região do retângulo
+    result[y_min:y_max+1, x_min:x_max+1] = 255 - result[y_min:y_max+1, x_min:x_max+1]
+
+    # Exibir a imagem resultante
+    cv2.imshow("Imagem Negativa", result)
+    cv2.imwrite("resultado.png", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+# Carregar a imagem
+image = cv2.imread("fib.png", cv2.IMREAD_GRAYSCALE)
+if image is None:
+    print("Não foi possível abrir a imagem.")
+else:
+    #Dimensão da imagem
+    width = image.shape[1]
+    height = image.shape[0]
+    print(f"{width}x{height}")
+
+    # Solicitar ao usuário as coordenadas de P1 e P2
+    p1_x = int(input("Digite a coordenada X de P1: "))
+    p1_y = int(input("Digite a coordenada Y de P1: "))
+
+    # Verifica se P1 possui coordenadas válidas
+    if p1_x &lt; 0 or p1_y &lt; 0 or p1_x &gt; image.shape[1] or p1_y &gt; image.shape[0]:
+        print("\nInsira um ponto válido")
+        exit(1)
+    print("\nP1x e P1y são válidos. \n")
+    p2_x = int(input("Digite a coordenada X de P2: "))
+    p2_y = int(input("Digite a coordenada Y de P2: "))
+
+    # Verifica se P2 possui coordenadas válidas
+    if p2_x &lt; 0 or p2_y &lt; 0 or p2_x &gt; image.shape[1] or p2_y &gt; image.shape[0] or p2_x &lt;= p1_x or p2_y &lt;= p1_y:
+        print("\nInsira um ponto válido")
+        exit(1)
+    print("\nP2x e P2y são válidos.")
+
+    print("P1 e P2 são válidos.\n")
+
+    negative_region(image, (p1_x, p1_y), (p2_x, p2_y))</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultado">Resultado</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/resultado.png" alt="resultado">
+</div>
+<div class="title">Figure 1. Imagem com negativo</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_2_trocar_regiões">2.2 Trocar regiões</h3>
+<div class="paragraph">
+<p>Seu programa deverá trocar os quadrantes em diagonal na imagem. Assuma que a imagem de entrada tem dimensões múltiplas de 2 para facilitar a implementação do processo de troca.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_2">Solução</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Carrega a imagem &#8220;fib.png&#8221; em escala de cinza.</p>
+</li>
+<li>
+<p>Divide a imagem em quatro quadrantes</p>
+</li>
+<li>
+<p>Realiza a troca dos quadrantes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Troca o Quadrante 1 com o Quadrante 3.</p>
+</li>
+<li>
+<p>Troca o Quadrante 2 com o Quadrante 4.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Salva e exibe a imagem resultante <code>regioes-trocadas.png</code></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+
+def carregar_imagem(nome_arquivo):
+    imagem = cv2.imread(nome_arquivo, cv2.IMREAD_GRAYSCALE)
+    if imagem is None:
+        print("Não foi possível abrir a imagem")
+        exit()
+    return imagem
+
+def dividir_quadrantes(imagem):
+    altura, largura = imagem.shape[:2]
+    metade_altura = altura // 2
+    metade_largura = largura // 2
+    quadrante_1 = imagem[0:metade_altura, 0:metade_largura].copy()
+    quadrante_2 = imagem[0:metade_altura, metade_largura:largura].copy()
+    quadrante_3 = imagem[metade_altura:altura, 0:metade_largura].copy()
+    quadrante_4 = imagem[metade_altura:altura, metade_largura:largura].copy()
+    return quadrante_1, quadrante_2, quadrante_3, quadrante_4
+
+def trocar_quadrantes(quadrante_1, quadrante_2, quadrante_3, quadrante_4):
+    imagem_temp = quadrante_1.copy()
+    quadrante_1[:] = quadrante_3
+    quadrante_3[:] = imagem_temp
+
+    imagem_temp = quadrante_2.copy()
+    quadrante_2[:] = quadrante_4
+    quadrante_4[:] = imagem_temp
+
+    imagem_resultante = cv2.vconcat([cv2.hconcat([quadrante_2, quadrante_1]), cv2.hconcat([quadrante_4, quadrante_3])])
+
+    return imagem_resultante
+
+def salvar_imagem(nome_arquivo, imagem):
+    cv2.imwrite(nome_arquivo, imagem)
+
+def exibir_imagem(imagem, nome_janela="Imagem Final"):
+    cv2.imshow(nome_janela, imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def main():
+    nome_arquivo = "fib.png"
+    imagem = carregar_imagem(nome_arquivo)
+    quadrante_1, quadrante_2, quadrante_3, quadrante_4 = dividir_quadrantes(imagem)
+    imagems = trocar_quadrantes(quadrante_1, quadrante_2, quadrante_3, quadrante_4)
+    salvar_imagem("q3.png", quadrante_2)
+    salvar_imagem("q4.png", quadrante_1)
+    salvar_imagem("q1.png", quadrante_3)
+    salvar_imagem("q2.png", quadrante_4)
+    salvar_imagem("regioes-trocadas.png", imagems)
+    exibir_imagem(imagems)
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultado_2">Resultado</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/f.png" alt="f">
+</div>
+<div class="title">Figure 2. Regiões trocadas</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_3_1_exercício">3.1 Exercício</h3>
+<div class="paragraph">
+<p>Utilizando o programa-exemplo filestorage.cpp como base, crie um programa que gere uma imagem de dimensões 256x256 pixels contendo uma senóide de 4 períodos com amplitude igual 127 desenhada na horizontal, semelhante àquela apresentada na Figura 6. Grave a imagem no formato YML e também exporte no formato PNG, como faz o programa-exemplo. Compare os arquivos gerados, extraindo uma linha correspondente de cada imagem gravada e comparando a diferença entre elas. Trace um gráfico da diferença calculada ao longo da linha correspondente extraída nas imagens. O que você observa? Por que isso acontece?</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_3">Solução</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Criação da senoide:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Cria uma matriz de zeros com dimensão (256x256px).</p>
+</li>
+<li>
+<p>Para cada pixel na imagem, calcula o valor da senoide e atribui à matriz.</p>
+</li>
+<li>
+<p>O cálculo é baseado na fórmula da função senoide: sen(x) = 127*sin(2*pi*Tx/l)+128.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Salva a matriz da imagem em uma arquivo YML.</p>
+</li>
+<li>
+<p>Normalização da imagem:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Normaliza a imagem para o intervalo de 0 a 255.</p>
+</li>
+<li>
+<p>Converte a imagem normalizada para o tipo de dados uint8.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Salva a imagem normalizada em formato PNG.</p>
+</li>
+<li>
+<p>Exibe a imagem gerada.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import math
+
+# Dimensão da imagem (256x256px)
+LADO = 256
+# Número de períodos da senoide
+PERIODOS = 4
+
+# Criar uma matriz de zeros para a imagem
+imagem = np.zeros((LADO, LADO), dtype=np.float32)
+
+for linha in range(LADO):
+    for coluna in range(LADO):
+        imagem[linha, coluna] = 127 * math.sin(2 * math.pi * PERIODOS * coluna / LADO) + 128
+
+# Salvar a imagem em formato YML
+ss_yml = f"senoide-{LADO}.yml"
+fs = cv2.FileStorage(ss_yml, cv2.FILE_STORAGE_WRITE)
+fs.write("matriz", imagem)
+fs.release()
+
+# Normalização da imagem
+imagem_normalizada = cv2.normalize(imagem, None, 0, 255, cv2.NORM_MINMAX)
+
+imagem_normalizada_uint8 = imagem_normalizada.astype(np.uint8)
+
+# Salvar a imagem em formato PNG
+ss_png = f"senoide-{LADO}.png"
+cv2.imwrite(ss_png, imagem_normalizada_uint8)
+
+# Exibir a imagem
+cv2.imshow("Senoide", imagem_normalizada_uint8)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultado_3">Resultado</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/senoide-256.png" alt="senoide 256">
+</div>
+<div class="title">Figure 3. Senoide</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_4_decomposição_de_imagens_digitais">4. Decomposição de imagens digitais</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_4_1_esteganografia">4.1 Esteganografia</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_4_2_exercicio">4.2 Exercicio</h3>
+<div class="paragraph">
+<p>Usando o programa bitplanes.cpp como referência para esteganografia, escreva um programa que recupere a imagem codificada de uma imagem resultante de esteganografia. Lembre-se que os bits menos significativos dos pixels da imagem fornecida deverão compor os bits mais significativos dos pixels da imagem recuperada. O programa deve receber como parâmetros de linha de comando o nome da imagem resultante da esteganografia. Teste a sua implementação com a imagem da Figura 13 (desafio-esteganografia.png).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/este.png" alt="este">
+</div>
+<div class="title">Figure 4. Imagem Codificada</div>
+</div>
+<div class="sect3">
+<h4 id="_solução_4">Solução</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Recuperação da Imagem:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Verifica se o nome do arquivo de imagem foi fornecido como argumento de linha de comando.</p>
+</li>
+<li>
+<p>Carrega a imagem resultante da esteganografia.</p>
+</li>
+<li>
+<p>Cria uma matriz de zeros para imagem recuperada.</p>
+</li>
+<li>
+<p>Para cada pixel na imagem resultante, recupera o valor original dos bits menos significativos.</p>
+</li>
+<li>
+<p>Salva a imagem recuperada em um arquivo PNG.</p>
+</li>
+<li>
+<p>Exibe a imagem recuperada.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import sys
+
+# Número de bits menos significativos usados na esteganografia
+BITS_LSB = 3
+
+def recuperar_imagem():
+    # Verificar se o nome do arquivo de imagem foi fornecido como argumento de linha de comando
+    if len(sys.argv) &lt; 2:
+        sys.exit(1)
+
+    # Carregar a imagem resultante da esteganografia
+    imagem_resultante = cv2.imread(sys.argv[1], cv2.IMREAD_COLOR)
+
+    if imagem_resultante is None:
+        print("Não foi possível carregar a imagem resultante da esteganografia.")
+        sys.exit(1)
+
+    # Criar uma matriz de zeros para a imagem recuperada
+    imagem_recuperada = np.zeros_like(imagem_resultante)
+
+    for linha in range(imagem_resultante.shape[0]):
+        for coluna in range(imagem_resultante.shape[1]):
+            valor_resultante = imagem_resultante[linha, coluna]
+            valor_recuperado = np.zeros(3, dtype=np.uint8)
+
+            for canal in range(3):
+                valor_recuperado[canal] = valor_resultante[canal] &lt;&lt; (8 - BITS_LSB) &amp; 0xFF
+
+            imagem_recuperada[linha, coluna] = valor_recuperado
+
+    # Nome do arquivo para salvar a imagem recuperada
+    nome_arquivo = 'imagem_final.png'
+
+    # Salvar a imagem recuperada
+    cv2.imwrite(nome_arquivo, imagem_recuperada)
+
+    # Exibir a imagem recuperada
+    cv2.imshow("Imagem Final", imagem_recuperada)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+recuperar_imagem()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultado_4">Resultado</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/imagem_final.png" alt="imagem final">
+</div>
+<div class="title">Figure 5. Imagem Recuperada</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_5_preenchendo_regiões">5. Preenchendo regiões</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_5_1_exercicio">5.1 Exercicio</h3>
+<div class="paragraph">
+<p>Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena, o processo de rotulação poderá ficar comprometido, visto que o tipo de dado usado para suportar imagens cinzentas permitem armazenar apenas um byte por pixel. Identifique a situação em que isso ocorre e proponha uma solução para este problema.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_5">Solução</h4>
+<div class="paragraph">
+<p>Para resolver o problema de casos que a imagem tenha mais que 255 objetos a serem rotulados, podemos usar uma estrategia de fazer o rotulo ser em pontu flutuante, ou rotula usando a operação mod de 255.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_2_exercicio">5.2 exercicio</h3>
+<div class="paragraph">
+<p>Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena. Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. Não se pode presumir, a priori, que elas tenham buracos ou não.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/bolhas.png" alt="bolhas">
+</div>
+<div class="title">Figure 6. Bolhas original</div>
+</div>
+<div class="sect3">
+<h4 id="_solução_6">Solução</h4>
+<div class="paragraph">
+<p>O código realiza a contagem de bolhas na imagem:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A imagem é carregada em escala de cinza. Se a imagem não for carregada corretamente, uma mensagem de erro é exibida e o programa é encerrado.</p>
+</li>
+<li>
+<p>Exclusão das Bordas:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>As bordas brancas da imagem são removidas usando o algoritmo de preenchimento de região (flood fill).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Os objetos na imagem são contados e preenchidos com um valor de intensidade único usando o flood fill.</p>
+</li>
+<li>
+<p>As bolhas com buracos são contadas e preenchidas com um valor diferente de cor.</p>
+</li>
+<li>
+<p>A imagem resultante, com as bolhas sem lacunas e a contagem são exibidas.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+
+image = cv2.imread("bolhas.png", cv2.IMREAD_GRAYSCALE)
+
+if image is None:
+  print("Imagem não carregou corretamente")
+  exit()
+
+# Obtendo largura e altura da imagem
+width = image.shape[1]
+height = image.shape[0]
+
+# Excluir bordas
+for i in range(height):
+  if image[0,i] == 255:
+    cv2.floodFill(image, None, (i,0), 0)
+  if image[width - 1, i] == 255:
+    cv2.floodFill(image, None, (i, width - 1), 0)
+
+for i in range(width):
+  if image[i,0] == 255:
+    cv2.floodFill(image, None, (0,i), 0)
+  if image[i, height - 1] == 255:
+    cv2.floodFill(image, None, (height - 1, i),0)
+
+# Visualizar imagem sem bordas
+cv2.imshow("Imagem_sembordas.png", image)
+cv2.imwrite("Imagem_sembordas.png", image)
+
+# Inicializando contagem de objetos
+nobjects = 0
+
+# Procurar objetos na imagem
+for i in range(height):
+  for j in range(width):
+    if image[i,j] == 255:
+      nobjects += 1
+      seed_point = (j,i)
+      cv2.floodFill(image, None, seed_point, nobjects)
+
+# preenche o fundo de branco para contagem de buracos
+cv2.floodFill(image, None, (0,0), 255)
+
+counte = 0
+for i in range(height):
+     for j in range(width):
+      if image[i, j] == 0 and image[i, j - 1] &gt; counte:
+        counte += 1
+        cv2.floodFill(image, None, (j - 1, i), counte)
+
+cv2.imshow("Imagen-cont", image )
+
+counter = 0
+for i in range(height):
+  for j in range(width):
+    if image[i, j] == 0:
+      cv2.floodFill(image, None, (j, i-1), 255)
+
+print(f"A figura tem : \n{nobjects - counte} bolhas\n{counte} bolhas com buracos\nTotal: {nobjects} bolhas")
+
+# Exibir a imagem com a segmentação
+cv2.imshow("imagem", image)
+cv2.imwrite("labeling.png", image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultado_5">Resultado</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/imagem_sembordas.png" alt="imagem sembordas">
+</div>
+<div class="title">Figure 7. Imagem sem bordas</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/labeling.png" alt="labeling">
+</div>
+<div class="title">Figure 8. resultado</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">A figura tem :
+14 bolhas
+7 bolhas com buracos
+Total: 21 bolhas</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_6_manipulando_histogramas">6 Manipulando histogramas</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_6_1_equalização">6.1 Equalização</h3>
+<div class="paragraph">
+<p>Utilizando o programa exemplos/histogram.cpp como referência, implemente um programa equalize.cpp. Este deverá, para cada imagem capturada, realizar a equalização do histogram antes de exibir a imagem. Teste sua implementação apontando a câmera para ambientes com iluminações variadas e observando o efeito gerado. Assuma que as imagens processadas serão em tons de cinza.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_7">Solução</h4>
+<div class="paragraph">
+<p>A resolução consistiu nas seguintes etapas:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Captura de Vídeo:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Inicializa a câmera para captura de vídeo.</p>
+</li>
+<li>
+<p>Se nenhuma câmera estiver disponível, exibe uma mensagem de erro e encerra o programa.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Processamento de Vídeo:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Para cada frame capturado, o progama:</p>
+</li>
+<li>
+<p>Converte o frame para escala de cinza.</p>
+</li>
+<li>
+<p>Equaliza o histograma do frame em escala de cinza.</p>
+</li>
+<li>
+<p>Exibe o frame original e o frame equalizado em janelas separadas.</p>
+</li>
+<li>
+<p>Salva os frames "orignal" e "equalizado" como imagens PNG.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>O programa é encerrado com o "Esc"</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+
+def main():
+    cap = cv2.VideoCapture(0)
+
+    if not cap.isOpened():
+        print("Câmeras indisponíveis")
+        return
+
+    while True:
+        ret, frame = cap.read()
+
+        if not ret:
+            break
+
+        grayscale = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        equalized = cv2.equalizeHist(grayscale)
+
+        cv2.namedWindow("normal", cv2.WINDOW_NORMAL)
+        cv2.namedWindow("equalizada", cv2.WINDOW_NORMAL)
+
+        cv2.imshow("normal", grayscale)
+        cv2.imshow("equalizada", equalized)
+
+        cv2.imwrite("frame_normal.png", grayscale)
+        cv2.imwrite("frame_equalizada.png", equalized)
+
+        key = cv2.waitKey(30)
+        if key == 27:
+            break
+
+    cv2.destroyAllWindows()
+    cap.release()
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/ser.gif" alt="ser">
+</div>
+<div class="title">Figure 9. Equalização</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_6_2_detecção_de_movimento">6.2 Detecção de Movimento</h3>
+<div class="paragraph">
+<p>Utilizando o programa exemplos/histogram.cpp como referência, implemente um programa motiondetector.cpp. Este deverá continuamente calcular o histograma da imagem (apenas uma componente de cor é suficiente) e compará-lo com o último histograma calculado. Quando a diferença entre estes ultrapassar um limiar pré-estabelecido, ative um alarme. Utilize uma função de comparação que julgar conveniente.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+
+def histograma(imagem, bins):
+    hist = cv2.calcHist([imagem], [0], None, [bins], [0, 256])
+    return hist
+
+# def main():
+cap = cv2.VideoCapture(0)
+
+if not cap.isOpened():
+   print("Câmeras indisponíveis")
+
+
+ret, imagem = cap.read()
+hist_novo = histograma(imagem, 256)
+hist_anterior = hist_novo.copy()
+temp = 0
+
+while True:
+  ret, imagem = cap.read()
+  imagem_gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
+  hist_novo = histograma(imagem_gray, 256)
+
+  compara = cv2.compareHist(hist_novo, hist_anterior, cv2.HISTCMP_CORREL)
+
+  if compara &lt;= 0.93:  # Altere o valor de comparação conforme necessário
+    print("Movimento detectado - Ordem:", temp)
+    temp += 1
+
+  cv2.imshow("Detector de Movimento", imagem)
+
+  if cv2.waitKey(1) &amp; 0xFF == ord('q'):  # Pressione 'q' para sair
+    break
+
+  hist_anterior = hist_novo.copy()
+
+cap.release()
+cv2.destroyAllWindows()</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_2">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/detect.gif" alt="detect">
+</div>
+<div class="title">Figure 10. Detecção de movimentos</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_7_filtragem_no_dominio_espacial_i">7 Filtragem no dominio espacial I</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_7_1_exercício">7.1 Exercício</h3>
+<div class="paragraph">
+<p>Utilizando o programa exemplos/convolucao.cpp como referência, implemente um programa laplgauss.cpp. O programa deverá acrescentar mais uma funcionalidade ao exemplo fornecido, permitindo que seja calculado o laplaciano do gaussiano das imagens capturadas. Compare o resultado desse filtro com a simples aplicação do filtro laplaciano.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_8">Solução</h4>
+<div class="paragraph">
+<p>Para a resolução desse exercício foi apenas necessário adicionar a máscara do laplaciano do gaussiano junto com as demais máscaras já implementadas do código original e colocar a opção de escolher a nova máscara digitando a tecla "p". Ao comparar o filtro laplaciano com o laplaciano do gaussiano percebe-se uma acentuação dos contornos e também existem mais contornos visíveis, como pode ser visto em <code>Resultados</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+
+def printmask(m):
+    for i in range(m.shape[0]):
+        for j in range(m.shape[1]):
+            print(m[i, j], end=",")
+        print()
+
+def main():
+    cap = cv2.VideoCapture(1)
+    media = np.array([0.1111, 0.1111, 0.1111, 0.1111, 0.1111, 0.1111, 0.1111, 0.1111, 0.1111], dtype=np.float32)
+    gauss = np.array([0.0625, 0.125, 0.0625, 0.125, 0.25, 0.125, 0.0625, 0.125, 0.0625], dtype=np.float32)
+    horizontal = np.array([-1, 0, 1, -2, 0, 2, -1, 0, 1], dtype=np.float32)
+    vertical = np.array([-1, -2, -1, 0, 0, 0, 1, 2, 1], dtype=np.float32)
+    laplacian = np.array([0, -1, 0, -1, 4, -1, 0, -1, 0], dtype=np.float32)
+    boost = np.array([0, -1, 0, -1, 5.2, -1, 0, -1, 0], dtype=np.float32)
+    laplgauss = np.array([0, 0, -1, 0, 0, 0, -1, -2, -1, 0, -1, -2, 16, -2, -1, 0, -1, -2, -1, 0, 0, 0, -1, 0, 0], dtype=np.float32)
+
+    if not cap.isOpened():
+        print("Câmeras indisponíveis")
+        return -1
+
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    print("largura =", width)
+    print("altura =", height)
+    print("fps =", cap.get(cv2.CAP_PROP_FPS))
+    print("formato =", cap.get(cv2.CAP_PROP_FORMAT))
+
+    cv2.namedWindow("filtroespacial", cv2.WINDOW_NORMAL)
+    cv2.namedWindow("original", cv2.WINDOW_NORMAL)
+
+    mask = np.zeros((3, 3), dtype=np.float32)
+    absolut = 1
+
+    while True:
+        ret, frame = cap.read()
+        framegray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        framegray = cv2.flip(framegray, 1)
+        cv2.imshow("original", framegray)
+
+        frame32f = framegray.astype(np.float32)
+        frameFiltered = cv2.filter2D(frame32f, -1, mask, anchor=(1, 1), delta=0)
+
+        if absolut:
+            frameFiltered = np.abs(frameFiltered)
+
+        result = frameFiltered.astype(np.uint8)
+
+        cv2.imshow("filtroespacial", result)
+
+        key = cv2.waitKey(10)
+        if key == 27:
+            break  # Esc pressed!
+        elif key == ord('a'):
+            absolut = not absolut
+        elif key == ord('m'):
+            mask = np.reshape(media, (3, 3))
+            printmask(mask)
+        elif key == ord('g'):
+            mask = np.reshape(gauss, (3, 3))
+            printmask(mask)
+        elif key == ord('h'):
+            mask = np.reshape(horizontal, (3, 3))
+            printmask(mask)
+        elif key == ord('v'):
+            mask = np.reshape(vertical, (3, 3))
+            printmask(mask)
+        elif key == ord('l'):
+            mask = np.reshape(laplacian, (3, 3))
+            printmask(mask)
+        elif key == ord('p'):
+            mask = np.reshape(laplgauss, (5, 5))
+            printmask(mask)
+        elif key == ord('b'):
+            mask = np.reshape(boost, (3, 3))
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_3">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/comp.gif" alt="comp">
+</div>
+<div class="title">Figure 11. Comparação</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_8_filtragem_no_dominio_espacial_ii">8 Filtragem no dominio espacial II</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-04-20 23:41:02 -0300
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>
