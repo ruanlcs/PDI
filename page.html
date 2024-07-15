@@ -482,6 +482,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_8_filtragem_no_dominio_espacial_ii">8 Filtragem no dominio espacial II</a></li>
+<li><a href="#_9_a_tranformada_discreta_de_fourier">9 A Tranformada Discreta de Fourier</a>
+<ul class="sectlevel2">
+<li><a href="#_exercicio_9_1">Exercicio 9.1</a></li>
+<li><a href="#_exercicio_9_2">Exercicio 9.2</a></li>
+<li><a href="#_exercicio_9_3">Exercicio 9.3</a></li>
+</ul>
+</li>
+<li><a href="#_10_filtragem_no_domínio_da_frequência">10 Filtragem no Domínio da Frequência</a>
+<ul class="sectlevel2">
+<li><a href="#_exercicio">Exercicio</a></li>
+</ul>
+</li>
+<li><a href="#_11_detecção_de_bordas_com_o_algoritmo_canny">11 Detecção de bordas com o algoritmo Canny</a>
+<ul class="sectlevel2">
+<li><a href="#_exercicio_2">Exercicio</a></li>
+</ul>
+</li>
+<li><a href="#_12_quantização_vetorial_com_k_means">12 Quantização vetorial com K-means</a>
+<ul class="sectlevel2">
+<li><a href="#_exercicio_3">Exercicio</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1362,10 +1384,546 @@ if __name__ == "__main__":
 
 </div>
 </div>
+<div class="sect1">
+<h2 id="_9_a_tranformada_discreta_de_fourier">9 A Tranformada Discreta de Fourier</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exercicio_9_1">Exercicio 9.1</h3>
+<div class="paragraph">
+<p>Utilizando os programa exemplos/dft.cpp, calcule e apresente o espectro de magnitude da imagem Figura 40, “Imagem senoidal com 256x256 pixels”.Compare o espectro de magnitude gerado para a figura Figura 40, “Imagem senoidal com 256x256 pixels” com o valor teórico da transformada de Fourier da senóide.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_9">Solução</h4>
+<div class="paragraph">
+<p>O resultado do espectro de magnitude gerado pelo código representa a magnitude da transformada de Fourier da imagem, mas essa não é idêntica ao valor teórico da transformada de Fourier de uma senoide pura, visto que, para o funcionamento do código, foram realizadas alterações no valor do log e, consequentemente, houve uma modificação na distribuição de valores do espectro. Além disso, a diferença é esperada devido às características específicas da imagem processada e às transformações aplicadas durante o cálculo e exibição do espectro</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+def swap_quadrants(image):
+  image = image[:image.shape[0] &amp; -2, :image.shape[1] &amp; -2]
+
+  centerX = image.shape[1] // 2
+  centerY = image.shape[0] // 2
+
+  A = image[:centerY, :centerX]
+  B = image[:centerY, centerX:]
+  C = image[centerY:, :centerX]
+  D = image[centerY:, centerX:]
+
+  tmp = A.copy()
+  A[:] = D
+  D[:] = tmp
+
+  tmp = B.copy()
+  B[:] = C
+  C[:] = tmp
+
+def calculate_magnitude_spectrum(image):
+  dft_M = cv2.getOptimalDFTSize(image.shape[0])
+  dft_N = cv2.getOptimalDFTSize(image.shape[1])
+  padded = cv2.copyMakeBorder(image,0,dft_M - image.shape[0], 0, dft_N - image.shape[1], cv2.BORDER_CONSTANT, value=0)
+
+  complex_image = cv2.dft(np.float32(padded), flags=cv2.DFT_COMPLEX_OUTPUT)
+  swap_quadrants(complex_image)
+
+  magnitude = cv2.magnitude(complex_image[:,:,0], complex_image[:,:,1])
+  magnitude +=1
+  magnitude = np.log(magnitude)
+  magnitude = cv2.normalize(magnitude, None, 0, 1, cv2.NORM_MINMAX)
+
+  return magnitude
+
+image = cv2.imread("senoide-256.png", cv2.IMREAD_GRAYSCALE)
+
+magnitude_spectrum = calculate_magnitude_spectrum(image)
+
+plt.subplot(121), plt.imshow(image, cmap = 'gray')
+plt.title("image"), plt.axis("off")
+plt.subplot(122), plt.imshow(magnitude_spectrum, cmap='gray')
+plt.title("Magnitude spectrum"), plt.axis('off')
+plt.show()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_4">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/fourier-t/spectrum-senoide.png" alt="spectrum senoide">
+</div>
+<div class="title">Figure 12. original senoide</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercicio_9_2">Exercicio 9.2</h3>
+<div class="paragraph">
+<p>Usando agora o filestorage.cpp, mostrado na Listagem 15, “filestorage.cpp” como referência, adapte o programa exemplos/dft.cpp para ler a imagem em ponto flutuante armazenada no arquivo YAML equivalente (ilustrado na Listagem 18, “trecho do arquivo senoide-256.yml”).</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_10">Solução</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+def swap_quadrants(image):
+    tmp = np.copy(image)
+    cx = image.shape[1] // 2
+    cy = image.shape[0] // 2
+    image[:cy, :cx] = tmp[cy:, cx:]
+    image[cy:, cx:] = tmp[:cy, :cx]
+    image[:cy, cx:] = tmp[cy:, :cx]
+    image[cy:, :cx] = tmp[:cy, cx:]
+
+def main():
+    # Carrega a imagem em ponto flutuante a partir do arquivo YAML
+    fs = cv2.FileStorage("senoide-256.yml", cv2.FILE_STORAGE_READ)
+    image = fs.getNode("mat").mat()
+    fs.release()
+
+    # Calcula a transformada de Fourier
+    complex_image = cv2.dft(image, flags=cv2.DFT_COMPLEX_OUTPUT)
+    swap_quadrants(complex_image)
+
+    # Separa os planos real e imaginário
+    planes = cv2.split(complex_image)
+
+    # Calcula o espectro de magnitude
+    magnitude = cv2.magnitude(planes[0], planes[1])
+    magnitude += 1
+    cv2.log(magnitude, magnitude)
+
+    # Normaliza a magnitude
+    cv2.normalize(magnitude, magnitude, 0, 1, cv2.NORM_MINMAX)
+
+    # Exibe as imagens processadas
+    cv2.imshow("Imagem", image.astype(np.uint8))
+    cv2.imshow("Espectro de magnitude", magnitude)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_5">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/fourier-t/update-spectrum.png" alt="update spectrum">
+</div>
+<div class="title">Figure 13. original senoide</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercicio_9_3">Exercicio 9.3</h3>
+<div class="paragraph">
+<p>Compare o novo espectro de magnitude gerado com o valor teórico da transformada de Fourier da senóide. O que mudou para que o espectro de magnitude gerado agora esteja mais próximo do valor teórico? Porque isso aconteceu?</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_11">Solução</h4>
+<div class="paragraph">
+<p>No código C++ original, o espectro de magnitude é calculado usando a função <code>cv::magnitude(planos[0], planos[1], magn)</code>, que retorna a magnitude complexa direta sem adicionar 1 ou calcular o logaritmo. No código Python adaptado, adicionamos 1 ao espectro de magnitude e aplicamos o logaritmo antes de normalizar.</p>
+</div>
+<div class="paragraph">
+<p>Essas alterações evitam o logaritmo de zero e comprimem a faixa dinâmica dos valores para melhorar a visualização, mas modificam a escala e a distribuição dos valores do espectro, resultando em diferenças visuais significativas em relação ao valor teórico.</p>
+</div>
+<div class="paragraph">
+<p>Para um resultado mais próximo do valor teórico, remova a adição de 1 e o logaritmo do cálculo do espectro de magnitude no código Python. O espectro de magnitude gerado será mais semelhante ao valor teórico da transformada de Fourier da senoide.</p>
+</div>
+<div class="paragraph">
+<p>Vale lembrar que o espectro de magnitude gerado representa a magnitude da transformada de Fourier da imagem, mas não é idêntico ao valor teórico da transformada de Fourier de uma senoide pura, devido às características específicas da imagem processada e às transformações aplicadas.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_10_filtragem_no_domínio_da_frequência">10 Filtragem no Domínio da Frequência</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exercicio">Exercicio</h3>
+<div class="paragraph">
+<p>Utilizando o programa exemplos/dftfilter.cpp como referência, implemente o filtro homomórfico para melhorar imagens com iluminação irregular. Crie uma cena mal iluminada e ajuste os parâmetros do filtro homomórfico para corrigir a iluminação da melhor forma possível. Assuma que a imagem fornecida é em tons de cinza.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_12">Solução</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Função shift_dft: Reorganiza o espectro de magnitude para centralizar a componente de baixa frequência.</p>
+</li>
+<li>
+<p>Função define_homomorphic_filter: Define um filtro homomórfico baseado nos parâmetros fornecidos (frequência de corte, constantes, etc.).</p>
+</li>
+<li>
+<p>Função show_images: Exibe a imagem original e a imagem filtrada em janelas separadas.</p>
+</li>
+<li>
+<p>Função options: Ajusta os parâmetros do filtro homomórfico com base nas teclas pressionadas pelo usuário.</p>
+</li>
+<li>
+<p>Função main:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Carrega a imagem original e redimensiona.</p>
+</li>
+<li>
+<p>Calcula o tamanho ideal para a DFT.</p>
+</li>
+<li>
+<p>Adiciona bordas à imagem para ajustar ao tamanho ideal.</p>
+</li>
+<li>
+<p>Define os parâmetros iniciais do filtro homomórfico.</p>
+</li>
+<li>
+<p>Aplica o filtro homomórfico iterativamente, permitindo ajustes interativos dos parâmetros.</p>
+</li>
+<li>
+<p>Exibe a imagem original e a filtrada.</p>
+</li>
+<li>
+<p>Atualiza os parâmetros do filtro com base na entrada do usuário.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>O filtro homomórfico é usado para realçar características da imagem, e o código permite ajustes interativos dos parâmetros para observar os efeitos em tempo real.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-pyhton hljs" data-lang="pyhton">import cv2
+import numpy as np
+import sys
+
+def shift_dft(image):
+  rows, cols = image.shape[:2]
+
+  regions = [
+    image[rows // 2: rows, cols // 2:cols],
+    image[rows // 2:rows, 0:cols // 2],
+    image[0:rows // 2, cols // 2:cols],
+    image[0:rows // 2, 0:cols // 2]]
+
+  a = np.hstack(regions[0:2])
+  b = np.hstack(regions[2:4])
+
+  return np.vstack((a,b))
+
+def define_homomorphic_filter(rows, cols, d_0, c, gamma_high, gamma_low):
+  homomorphic = np.zeros((rows, cols))
+
+  rows_half = rows // 2
+  cols_half = cols // 2
+
+  for i in range(rows):
+    i_diff = i - rows_half
+    i_diff_square = i_diff * i_diff
+
+    for j in range(cols):
+      j_diff = j - cols_half
+      j_diff_square = j_diff * j_diff
+
+      d_2 = i_diff_square + j_diff_square
+      exp_value = np.exp(-c*d_2/(d_0**2))
+      homomorphic[i,j] = (gamma_high - gamma_low) * (1-exp_value) + gamma_low
+
+  return cv2.merge([homomorphic, homomorphic])
+
+def show_images(window_names, images, time):
+  for image, window_name in zip(images, window_names):
+    cv2.imshow(window_name, image)
+
+  return chr(cv2.waitKey(time) &amp; 255)
+
+def options(key, c, gamma_high, gamma_low, d0):
+  if key == "C":
+    c += 0.5
+  elif key == "c":
+    c -= 0.5
+    if c &lt; 0:
+      c =0
+  elif key == "G":
+    gamma_low += 0.5
+  elif key == "g":
+    gamma_low -= 0.5
+    if gamma_low &lt; gamma_low + 1:
+      gamma_low = gamma_low + 1
+  elif key == "D":
+    d0 += 0.5
+  elif key == "d":
+    d0 -= 0.5
+
+  return c, gamma_high, gamma_low, d0
+
+def main():
+  original_image = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
+  original_image = cv2.resize(original_image, (1280, 720))
+
+  dft_rows = cv2.getOptimalDFTSize(original_image.shape[0])
+  dft_cols = cv2.getOptimalDFTSize(original_image.shape[1])
+
+  padded_rows = dft_rows - original_image.shape[0]
+  padde_cols = dft_cols - original_image.shape[1]
+
+  original_window_name = "original image"
+  filtered_window_name = "homomophirc filter"
+
+  c = 1
+  gamma_high = 2
+  gamma_low = 0.5
+  d0 = 4.5
+
+  homomorphic = define_homomorphic_filter(dft_rows, dft_cols, d0, c, gamma_high, gamma_low)
+
+  padded = cv2.copyMakeBorder(original_image, 0, padded_rows, 0, padde_cols, cv2.BORDER_CONSTANT, value=[0,0,0])
+
+  key = "não"
+
+  while "\x1b" != key:
+    planes = np.log(padded.astype(np.float64)+1)
+    planes = cv2.merge([planes, np.zeros(padded.shape, np.float64)])
+
+    dft_image = cv2.dft(planes, flags=cv2.DFT_COMPLEX_OUTPUT)
+
+    shifted_image = shift_dft(dft_image)
+
+    filtered_image = cv2.mulSpectrums(shifted_image, homomorphic, 0)
+
+    dft_image = shift_dft(filtered_image)
+
+    image = cv2.idft(dft_image, flags=cv2.DFT_SCALE | cv2.DFT_REAL_OUTPUT)
+
+    cv2.normalize(image, image, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
+
+    key = show_images([original_window_name, filtered_window_name], [original_image, image], 0)
+
+    c, gamma_high, gamma_low, d0 = options(key, c, gamma_high, gamma_low, d0)
+
+    print("c {}, gamma high {}, gamma low {}, d0 {}".format(c, gamma_high, gamma_low, d0))
+
+    homomorphic = define_homomorphic_filter(dft_rows, dft_cols, d0, c, gamma_high, gamma_low)
+
+if __name__ == '__main__':
+  main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_6">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/homomorphic-filter/frame-update.png" alt="frame update">
+</div>
+<div class="title">Figure 14. Filtro Homomórfico</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/homomorphic-filter/frame.png" alt="frame">
+</div>
+<div class="title">Figure 15. Sem Filtro</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_11_detecção_de_bordas_com_o_algoritmo_canny">11 Detecção de bordas com o algoritmo Canny</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exercicio_2">Exercicio</h3>
+<div class="paragraph">
+<p>Utilizando os programas exemplos/canny.cpp e exemplos/pontilhismo.cpp como referência, implemente um programa cannypoints.cpp. A idéia é usar as bordas produzidas pelo algoritmo de Canny para melhorar a qualidade da imagem pontilhista gerada. A forma como a informação de borda será usada é livre. Entretanto, são apresentadas algumas sugestões de técnicas que poderiam ser utilizadas:</p>
+</div>
+<div class="paragraph">
+<p>Desenhar pontos grandes na imagem pontilhista básica;
+Usar a posição dos pixels de borda encontrados pelo algoritmo de Canny para desenhar pontos nos respectivos locais na imagem gerada.
+Experimente ir aumentando os limiares do algoritmo de Canny e, para cada novo par de limiares, desenhar círculos cada vez menores nas posições encontradas. A Figura 48, “Pontilhismo aplicado à imagem Lena” foi desenvolvida usando essa técnica.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_13">Solução</h4>
+<div class="paragraph">
+<p>Para resolver este exercício, adaptei o código do pontilhismo aplicando o algoritmo de Canny à imagem em questão. Após isso, um laço for aninhado preserva a posição e a cor original. Em seguida, desenhamos pequenos círculos nos pontos obtidos das bordas detectadas pelo Canny, resultando na imagem final. A seguir, apresento o código e os resultados:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import random
+import requests
+from io import BytesIO
+
+# Constantes
+STEP = 6
+JITTER = 4
+RAIO = 6
+RAIO_PEQUENO = 3
+IMAGE_URL = 'https://img.freepik.com/free-photo/futuristic-exploration-dubai-s-evolving-cityscape_23-2151339724.jpg?t=st=1719255845~exp=1719259445~hmac=5c6f5d7a28bc9bab8cf242a871d83a144ea92a9dc0f554221a554ffa78352225&amp;w=1060'
+
+def download_image(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    image_data = response.content
+    return cv2.imdecode(np.array(bytearray(image_data), dtype=np.uint8), cv2.IMREAD_COLOR)
+
+def apply_canny_edge_detection(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    return cv2.Canny(gray, 80, 240)
+
+def generate_pointillism(image, edge_image):
+    height, width, _ = image.shape
+    points = np.full((height, width, 3), (255, 255, 255), dtype=np.uint8)
+    xrange = list(range(0, height, STEP))
+    yrange = list(range(0, width, STEP))
+
+    random.shuffle(xrange)
+    random.shuffle(yrange)
+
+    # Amostragem aleatória de pontos
+    for i in xrange:
+        for j in yrange:
+            x = i + random.randint(-JITTER, JITTER)
+            y = j + random.randint(-JITTER, JITTER)
+            x = min(max(x, 0), height - 1)
+            y = min(max(y, 0), width - 1)
+            color = tuple(map(int, image[x, y]))
+            cv2.circle(points, (y, x), RAIO, color, -1, cv2.LINE_AA)
+
+    # Adiciona pontos baseados nas bordas
+    border_points = []
+    for i in range(height):
+        for j in range(width):
+            if edge_image[i, j] != 0:
+                color = tuple(map(int, image[i, j]))
+                border_points.append([j, i, color[0], color[1], color[2]])
+
+    random.shuffle(border_points)
+
+    for ponto in border_points:
+        x, y, b, g, r = ponto
+        color = (b, g, r)
+        cv2.circle(points, (x, y), RAIO_PEQUENO, color, -1, cv2.LINE_AA)
+
+    return points
+
+def main():
+    image = download_image(IMAGE_URL)
+
+    cv2.imshow("Imagem Original", image)
+    cv2.waitKey(0)
+
+    edge_image = apply_canny_edge_detection(image)
+    cv2.imshow("Bordas Canny", edge_image)
+    cv2.waitKey(0)
+
+    pointillism_image = generate_pointillism(image, edge_image)
+    cv2.imshow("Imagem Pontilhista", pointillism_image)
+    cv2.waitKey(0)
+
+    cv2.imwrite("cannypoints.png", pointillism_image)
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_7">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/canny/cannypoints.png" alt="cannypoints">
+</div>
+<div class="title">Figure 16. Equalização</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_12_quantização_vetorial_com_k_means">12 Quantização vetorial com K-means</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exercicio_3">Exercicio</h3>
+<div class="paragraph">
+<p>Utilizando o programa kmeans.cpp como exemplo prepare um programa exemplo onde a execução do código se dê usando o parâmetro nRodadas=1 e inciar os centros de forma aleatória usando o parâmetro KMEANS_RANDOM_CENTERS ao invés de KMEANS_PP_CENTERS. Realize 10 rodadas diferentes do algoritmo e compare as imagens produzidas. Explique porque elas podem diferir tanto.</p>
+</div>
+<div class="sect3">
+<h4 id="_solução_14">Solução</h4>
+<div class="paragraph">
+<p>A solução é dada da seguinte forma: a matriz <code>samples</code> deve conter em cada linha uma das amostras a serem processadas pela função <code>nClusters</code>, que informa a quantidade de aglomerados que se deseja obter, no nosso caso, 8. A matriz <code>rotulos</code> é um objeto do tipo <code>Mat</code> preenchido com elementos do tipo <code>int</code>, onde cada elemento identifica a classe à qual pertence a amostra na matriz <code>samples</code>. Aqui, realizamos no máximo 10.000 iterações ou utilizamos uma tolerância de 0.0001 para finalizar o algoritmo. O algoritmo é repetido por uma quantidade de vezes definida por <code>nRodadas</code>, sendo escolhida como vencedora a rodada que produz a menor soma de distâncias dos pontos para seus respectivos centros. Foi utilizada a inicialização dos centros de forma aleatória com <code>KMEANS_RANDOM_CENTERS</code>, como veremos a seguir:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import cv2
+import numpy as np
+import requests
+
+def download_image(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_COLOR)
+    else:
+        raise Exception("Erro ao baixar a imagem")
+
+def kmeans_clustering(image, n_clusters=8, n_iterations=10, n_rodadas=1):
+    samples = np.float32(image.reshape(-1, 3))
+    criteria = (cv2.TERM_CRITERIA_MAX_ITER + cv2.TERM_CRITERIA_EPS, 10000, 0.0001)
+    flags = cv2.KMEANS_RANDOM_CENTERS
+
+    for i in range(n_iterations):
+        compactness, labels, centers = cv2.kmeans(samples, n_clusters, None, criteria, n_rodadas, flags)
+        centers = np.uint8(centers)
+        clustered_image = centers[labels.flatten()]
+        clustered_image = clustered_image.reshape(image.shape)
+        cv2.imshow("Clustered Image", clustered_image)
+        cv2.imwrite(f"kmeans_image_{i}.png", clustered_image)
+        print(f"Imagem {i + 1} salva como kmeans_image_{i}.png")
+
+        if cv2.waitKey(0) == ord('q'):
+            break
+
+    cv2.destroyAllWindows()
+
+def main():
+    image_url = "https://img.freepik.com/free-photo/seafood-plate-with-shrimps-mussels-lobsters-served-with-lemon_140725-8798.jpg?w=740&amp;t=st=1719254482~exp=1719255082~hmac=36cdd489ec267993e8d9293c42b46cbe4b017f8b0548f6d258a71dbc001580dc"
+    image = download_image(image_url)
+    kmeans_clustering(image, n_clusters=8, n_iterations=10, n_rodadas=1)
+
+if __name__ == "__main__":
+    main()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resultados_8">Resultados</h4>
+<div class="imageblock">
+<div class="content">
+<img src="exercicios/k-means/images/allimgs.gif" alt="allimgs">
+</div>
+<div class="title">Figure 17. Equalização</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-22 21:59:17 -0300
+Last updated 2024-07-15 19:33:05 -0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
